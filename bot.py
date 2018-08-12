@@ -1,3 +1,4 @@
+import os
 import discord
 from discord.ext import commands
 
@@ -43,13 +44,4 @@ async def avatar(ctx, member: discord.Member):
     await ctx.send(member.avatar_url)
 
 
-
-
-
-
-
-
-
-
-
-bot.run('NDcwNTY5MTUzODcxMzQ3NzEy.DlDewQ.ezMzCtdx9DJwt3CLjdlSzLq1S3U')
+bot.run(os.environ['TOKEN'])
