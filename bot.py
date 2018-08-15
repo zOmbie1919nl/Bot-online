@@ -4,7 +4,7 @@ import os
 import aiohttp
 from discord.ext import commands
 
-bot = commands.Bot(description='', command_prefix=commands.when_mentioned_or('-'), pm_help=False)
+bot = commands.Bot(description='', command_prefix=commands.when_mentioned_or(!!'), pm_help=False)
 
 #This is an event.
 @bot.event
