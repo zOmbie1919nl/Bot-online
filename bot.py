@@ -44,7 +44,7 @@ async def userinfo(ctx, member: discord.Member):
     discrim = member.discriminator
     name = f'{display}#{discrim}'
     joindate = f'{member.joined_at.day}-{member.joined_at.month}-{member.joined_at.year}'
-    joined = f'{joindate}, {member.joined_at.hour}:{member.join_at.minute}'
+    joined = f'{joindate}, {member.joined_at.hour}:{member.joined_at.minute}'
     createddate = f'{member.created_at.day}-{member.created_at.month}-{member.created_at.year}'
     created = f'{createddate}, {member.created_at.hour}:{member.created_at.minute}'
 
