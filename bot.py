@@ -4,7 +4,7 @@ import os
 import aiohttp
 from discord.ext import commands
 
-bot = commands.Bot(description='', command_prefix=commands.when_mentioned_or('!!'), pm_help=False)
+bot = commands.Bot(description='', command_prefix=commands.when_mentioned_or('-'), pm_help=False)
 
 #This is an event.
 @bot.event
@@ -22,7 +22,9 @@ def has_role (role_name, obj):
 @commands.has_permissions(view_audit_log=True)
 @bot.command()
 async def joined(ctx, member: discord.Member):
-    await ctx.send(f'{member.name} joined in {member.joined_at}')
+    joindate = f'{member.joined_at.day}-{member.joined_at.month}-{member.joined_at.year}'
+    joined = f'{joindate}, {member.joined_at.hour}:{member.joined_at.minute}'
+    await ctx.send(f'{member.name} joined at {joined}')
 
 @bot.command()
 async def giverole(ctx, member: discord.Member, role):
@@ -36,7 +38,9 @@ async def id(ctx, member: discord.Member):
 
 @bot.command()
 async def avatar(ctx, member: discord.Member):
-    await ctx.send(member.avatar_url)
+    em = discord.Embed()
+    em.set_image(url=f'{member.avatar_url}')
+    await ctx.send(embed=em)
 
 @bot.command()
 async def userinfo(ctx, member: discord.Member):
@@ -98,15 +102,16 @@ async def iss(ctx):
     async with aiohttp.request('get', 'https://api.wheretheiss.at/v1/satellites/25544') as resp:
         iss_data = await resp.json()
 
-    name = iss_data['name']
     visibility = iss_data['visibility']
+    id = iss_data['id']
     latitude = iss_data['latitude']
     timestamp = iss_data['timestamp']
-    content = f'{name}\n{visibility}\n{latitude}\n{timestamp}'
 
-    await ctx.send(content)
-
-
-
+    em = discord.Embed(title='International Space Station', colour=0xffffffff)
+    em.add_field(name='Visibility', value=visibility, inline=False)
+    em.add_field(name='Id', value=id, inline=False )
+    em.add_field(name='Latitude', value=latitude, inline=False)
+    em.add_field(name='Timestamp', value=timestamp, inline=False)
+    await ctx.send(embed=em)
 
 bot.run(os.environ['TOKEN'])
