@@ -10,7 +10,7 @@ bot = commands.Bot(description='', command_prefix=commands.when_mentioned_or('!!
 @bot.event
 async def on_ready():
     print('Ready sir *salutes*')
-    await bot.change_presence(activity=discord.Game(name='The moderator game. (prefix: !!)'))
+    await bot.change_presence(activity=discord.Game(name='in Robo land!! (prefix: !!)'))
     bot.load_extension('dave_Repl')
 
 
