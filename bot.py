@@ -4,7 +4,7 @@ import os
 import aiohttp
 from discord.ext import commands
 
-bot = commands.Bot(description='', command_prefix=commands.when_mentioned_or(!!'), pm_help=False)
+bot = commands.Bot(description='', command_prefix=commands.when_mentioned_or('!!'), pm_help=False)
 
 #This is an event.
 @bot.event
@@ -19,11 +19,29 @@ bot.remove_command('help')
 def has_role (role_name, obj):
     return any(role_name == role.name.lower() for role in obj.roles)
 
+@bot.command()
+async def help(ctx):
+    em = discord.Embed(title='zOmbot Help', color=0xFF69B4)
+    em.set_author(name='Prefix is !!' )
+    em.set_footer(text='zOmbot created by zOmbie1919nl')
+    em.add_field(name='Help', value='Sents you this messages', inline=False)
+    em.add_field(name='Joined [member]', value='Gives the date and time of when a member joined.', inline=False)
+    em.add_field(name='Avatar [member]', value='Gives the the profile picture of a member.', inline=False)
+    em.add_field(name='Id [member]', value='Gives the id of a member.', inline=False)
+    em.add_field(name='Dm [member]', value='For all those lazy people, it dms a member', inline=False)
+    em.add_field(name='Userinfo [member]', value='Gives you more information about a member.', inline=False)
+    em.add_field(name='Serverinfo', value='Gives you some server information.', inline=False)
+    em.add_field(name='Say', value='Lets the bot send a message that you\'ve put in.', inline=False)
+    em.add_field(name='Apistats', value='Shows you the status of the Discord API [note that the bot will be offline when the API is down]', inline=False)
+    await ctx.author.send(embed=em)
+
+
+
 @commands.has_permissions(view_audit_log=True)
 @bot.command()
 async def joined(ctx, member: discord.Member):
     joindate = f'{member.joined_at.day}-{member.joined_at.month}-{member.joined_at.year}'
-    joined = f'{joindate}, {member.joined_at.hour}:{member.joined_at.minute}'
+    joined = f'{joindate}, {str(member.joined_at.time())[:-10]}'
     await ctx.send(f'{member.name} joined at {joined}')
 
 @bot.command()
@@ -48,11 +66,11 @@ async def userinfo(ctx, member: discord.Member):
     discrim = member.discriminator
     name = f'{display}#{discrim}'
     joindate = f'{member.joined_at.day}-{member.joined_at.month}-{member.joined_at.year}'
-    joined = f'{joindate}, {member.joined_at.hour}:{member.joined_at.minute}'
+    joined = f'{joindate}, {str(member.joined_at.time())[:-10]}'
     createddate = f'{member.created_at.day}-{member.created_at.month}-{member.created_at.year}'
-    created = f'{createddate}, {member.created_at.hour}:{member.created_at.minute}'
+    created = f'{createddate}, {str(member.created_at.time())[:-10]}'
 
-    em = discord.Embed(title='userinfo', colour=0x89cff0)
+    em = discord.Embed(title='userinfo', colour=0xFF69B4)
     em.set_thumbnail(url=member.avatar_url)
     em.add_field(name='Name:', value=name, inline=False)
     em.add_field(name='Nickname:', value=member.nick, inline=False)
@@ -75,7 +93,7 @@ async def say(ctx, *, words):
 async def serverinfo(ctx):
     guild = ctx.guild
     serverdate = f'{guild.created_at.day}-{guild.created_at.month}-{guild.created_at.year}'
-    servercreated = f'{serverdate}, {guild.created_at.hour}:{guild.created_at.minute}'
+    servercreated = f'{serverdate}, {str(guild.created_at.time())[:-10]}'
 
     em = discord.Embed(title=f'{guild.name}', colour=0xFF69B4)
     em.set_thumbnail(url=guild.icon_url)
@@ -96,22 +114,5 @@ async def apistats(ctx):
     description = status['description']
 
     await ctx.send(description)
-
-@bot.command()
-async def iss(ctx):
-    async with aiohttp.request('get', 'https://api.wheretheiss.at/v1/satellites/25544') as resp:
-        iss_data = await resp.json()
-
-    visibility = iss_data['visibility']
-    id = iss_data['id']
-    latitude = iss_data['latitude']
-    timestamp = iss_data['timestamp']
-
-    em = discord.Embed(title='International Space Station', colour=0xffffffff)
-    em.add_field(name='Visibility', value=visibility, inline=False)
-    em.add_field(name='Id', value=id, inline=False )
-    em.add_field(name='Latitude', value=latitude, inline=False)
-    em.add_field(name='Timestamp', value=timestamp, inline=False)
-    await ctx.send(embed=em)
 
 bot.run(os.environ['TOKEN'])
