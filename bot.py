@@ -156,7 +156,7 @@ async def kick(ctx, member: discord.Member=None, *, reason=None):
         em = discord.Embed(colour=0xff0000)
         em.add_field(name='kick [user] [reason]', value='**user** refers to the user you are wanting to kick \n **reason** refers to the reason for the kick \n **example** !!kick @John being mean!', inline=False)
         return await ctx.send(embed=em)
-       if reason is None:
+    if reason is None:
             return await ctx.send('Please give the kick a reason')
     if member is guild.owner:
         return await ctx.send('I cannot kick the server owner sadly')
@@ -255,6 +255,8 @@ async def giverole(ctx, member: discord.Member=None, role: discord.Role=None):
         await member.add_roles(role)
         await ctx.send(f'{member.name} has been given the **{role}** role.')
 
+
+
 #other commands
 
 @bot.command()
@@ -275,5 +277,7 @@ async def boop(ctx, member: discord.Member=None):
         return await ctx.send(f'Boop! {author.mention} you\'ve been booped by me!')
     else:
         return await ctx.send(f'Boop! {member.mention} you\'ve been booped by {author.mention}!')
+
+
 
 bot.run(os.environ['TOKEN'])
