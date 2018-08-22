@@ -5,7 +5,7 @@ import aiohttp
 import collections
 from discord.ext import commands
 
-bot = commands.Bot(description='', command_prefix=commands.when_mentioned_or('-'), pm_help=False, case_insensitive=True)
+bot = commands.Bot(description='', command_prefix=commands.when_mentioned_or('!!'), pm_help=False, case_insensitive=True)
 
 #This is an event.
 @bot.event
