@@ -47,7 +47,7 @@ async def help(ctx):
     em.add_field(name='Moderations commands', value='Type !!mhelp to see all moderation commands', inline=False)
     em.add_field(name='Information commands', value='Type !!ihelp too see all information commands', inline=False)
     em.add_field(name='Other commands', value='Type !!chelp too see all other commands', inline=False )
-    em.add_field(name='Help desk', value='Type !!helpdeks to get addintional information', inline=False)
+    em.add_field(name='Help desk', value='Type !!helpdesk to get addintional information', inline=False)
     em.add_field(name='**note**', value='Keep in mind that the bot is still in development', inline=False)
     await ctx.send(embed=em)
 
